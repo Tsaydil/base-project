@@ -5,20 +5,16 @@ import Link from "next/link"
 
 export default function Home() {
   return (
-    <div>
-        <Head>
-            <title>Base Project</title>
-            <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <Layout />
-        <main className={styles.main}>
-            <h1 className={styles.title}>
-                TSA Test!
-            </h1>
-            <Link href='/another_page' >
-                  <a className={styles.a}>Second Page</a>
-            </Link>
-        </main>
-    </div>
+      <div>
+          <Head>
+              <title>Base Project</title>
+              <link rel="icon" href="/favicon.ico" />
+          </Head>
+          <main className={styles.main}>
+              <h1 className={styles.title}>
+                  Main Page!
+              </h1>
+          </main>
+      </div>
   )
 }
