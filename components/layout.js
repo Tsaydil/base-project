@@ -2,11 +2,10 @@ import styles from './layout.module.css';
 import Link from 'next/link';
 import navButtons from "../config/buttons";
 import NavBar from "./navBar/navBar";
-const tsa_collection = require('../api/models/tsaModel');
 
 
 const Layout = ({children}) => {
-    console.log(navButtons);
+    //console.log(navButtons);
     return (
         <div>
             <div>

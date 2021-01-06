@@ -2,15 +2,52 @@ const express = require('express');
 const next = require('next');
 const MongoClient = require('mongodb').MongoClient;
 require('dotenv').config();
+const {ApolloServer} = require('apollo-server-express');
+//const {typeDefs, resolvers} = require('./schema');
+const typeDefs = require('./api/graphql/types/types')
+const resolvers = require('./api/graphql/resolvers/resolvers')
+
+
 
 //const mongoDB = require('./pages/api/database/mongoDB');
 //import main from './pages/api/database/mongoDB';
 //import { connectToMongoDB } from './pages/api/database/mongoDB';
-//const connectToMongoDB = require('./pages/api/database/mongoDB');
 const connectDB = require('./api/database/mongoDB3');
-//const test_collection = require('./api/models/productModel');
 
 connectDB();
+
+
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({dev});
+const handle = app.getRequestHandler();
+const server = express();
+
+/*const book_collection = require('./api/models/bookModel');
+server.get('/api_test', async (req, res) => {
+    const books = await book_collection.find({});
+    res.send({books})
+});*/
+
+const apolloServer = new ApolloServer({
+    typeDefs,
+    resolvers
+});
+apolloServer.applyMiddleware({app: server, path: "/graphql"})
+
+
+//module.exports = client
+
+/*
+client.query({
+    query: gql`
+        query books {
+            rates(currency: "USD") {
+                currency
+            }
+        }
+    `
+}).then(result => console.log(result));
+*/
 
 /*const importJSON = async () => {
     const productsObj = require('./products.json').products;
@@ -38,25 +75,18 @@ connectDB();
 
 
 
-//main().catch(console.error);
 
-const dev = process.env.NODE_ENV !== 'production';
-const app = next({dev});
-const handle = app.getRequestHandler();
+// controller/API
+/*const test_collection = require('./api/models/productModel');
+server.get('/api_another_page', async (req, res) => {
+    const products = await test_collection.find({});
+    res.send({products});
+});*/
 
-/*const func = async () => {
-    //const test = await tsa_collection.find({});
-    //console.log('test', test);
 
-    /!*let new_obj = new tsa_collection({Name: 'Taha Samet', Surname: 'Aydil'})
-    await new_obj.save();
-    console.log(new_obj);*!/
-}
-func();*/
 
 app.prepare()
     .then(() => {
-        const server = express()
 
         server.get('*', (req,res) => {
             return handle(req, res);

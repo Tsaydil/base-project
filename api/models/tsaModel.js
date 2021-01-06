@@ -6,7 +6,6 @@ const tsaSchema = new Schema({
     Surname: String
 });
 
-module.exports = mongoose.model('TsaCollection', tsaSchema);
-
+module.exports = mongoose.model('tsa_collection', tsaSchema);
 
 
